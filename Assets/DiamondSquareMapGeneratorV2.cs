@@ -37,7 +37,8 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
 
     //SHADER AND LIGHT FROM GUI INTERFACE
     public Shader shader;
-    public PointLight pointLight;
+    public DirLight sun;
+    public DirLight moon;
 
     // Use this for initialization
     void Start () {
@@ -292,7 +293,9 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
         MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
 
         // Pass updated light positions to shader
-        renderer.material.SetColor("_PointLightColor", this.pointLight.color);
-        renderer.material.SetVector("_PointLightPosition", this.pointLight.GetWorldPosition());
+        renderer.material.SetColor("_SunLightColor", this.sun.color);
+        renderer.material.SetVector("_SunLightPosition", this.sun.GetWorldPosition());
+        renderer.material.SetColor("_MoonLightColor", this.moon.color);
+        renderer.material.SetVector("_MoonLightPosition", this.moon.GetWorldPosition());
     }
 }

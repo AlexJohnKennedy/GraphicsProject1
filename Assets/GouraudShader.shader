@@ -28,8 +28,10 @@ Shader "Unlit/GouraudShader"
 {
 	Properties
 	{
-		_PointLightColor ("Point Light Color", Color) = (0, 0, 0)
-		_PointLightPosition ("Point Light Position", Vector) = (0.0, 0.0, 0.0)
+		_SunLightColor ("Point Light Color", Color) = (0, 0, 0)
+		_SunLightPosition ("Point Light Position", Vector) = (0.0, 0.0, 0.0)
+		_MoonLightColor ("Moon Light Color", Color) = (0, 0, 0)
+		_MoonLightPosition ("Moon Light Color", Vector) = (0.0, 0.0, 0.0)
 	}
 	SubShader
 	{
@@ -41,8 +43,10 @@ Shader "Unlit/GouraudShader"
 
 			#include "UnityCG.cginc"
 
-			uniform float3 _PointLightColor;
-			uniform float3 _PointLightPosition;
+			uniform float3 _SunLightColor;
+			uniform float3 _SunLightPosition;
+			// uniform float3 _MoonLightColor;
+			// uniform float3 _MoonLightPosition;
 
 			struct vertIn
 			{
@@ -77,18 +81,24 @@ Shader "Unlit/GouraudShader"
 				// (when calculating the reflected ray in our specular component)
 				float fAtt = 1;
 				float Kd = 1;
-				float3 L = normalize(_PointLightPosition - worldVertex.xyz);
+				float3 L = normalize(_SunLightPosition - worldVertex.xyz);
+				// float3 M = normalize(_MoonLightPosition - worldVertex.xyz);
 				float LdotN = dot(L, worldNormal.xyz);
-				float3 dif = fAtt * _PointLightColor.rgb * Kd * v.color.rgb * saturate(LdotN);
+				// float MdotN = dot(M, worldNormal.xyz);
+				float3 dif = fAtt * _SunLightColor.rgb * Kd * v.color.rgb * saturate(LdotN);
+				// float3 Mdif = fAtt * _MoonLightColor.rgb * Kd * v.color.rgb * saturate(MdotN);
 				
 				// Calculate specular reflections
 				float Ks = 1;
 				float specN = 5; // Values>>1 give tighter highlights
 				float3 V = normalize(_WorldSpaceCameraPos - worldVertex.xyz);
 				float3 R = float3(0.0, 0.0, 0.0);
-				float3 spe = fAtt * _PointLightColor.rgb * Ks * pow(saturate(dot(V, R)), specN);
+				float3 spe = fAtt * _SunLightColor.rgb * Ks * pow(saturate(dot(V, R)), specN);
+				// float3 Mspe = fAtt * _MoonLightColor.rgb * Ks * pow(saturate(dot(V, R)), specN);
+
 
 				// Combine Phong illumination model components
+
 				o.color.rgb = amb.rgb + dif.rgb + spe.rgb;
 				o.color.a = v.color.a;
 

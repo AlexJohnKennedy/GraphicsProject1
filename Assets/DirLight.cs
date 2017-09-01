@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PointLight : MonoBehaviour {
+public class DirLight : MonoBehaviour
+{
 
     public Color color;
 
