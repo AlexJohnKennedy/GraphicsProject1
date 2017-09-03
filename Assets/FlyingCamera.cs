@@ -39,16 +39,25 @@ public class FlyingCamera : MonoBehaviour {
             this.transform.localPosition += right * speed * Time.deltaTime;
         }
 
+        if (Input.GetKey(KeyCode.Q)) {
+            this.transform.Rotate(transform.forward, speed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.E)) {
+            this.transform.Rotate(transform.forward, -speed * Time.deltaTime);
+        }
+
         mouseLook();
     }
-
 
     private void mouseLook() {
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse Y"), Input.GetAxisRaw("Mouse X"));
 
         angleX -= mouseDelta.x;
         angleY += mouseDelta.y;
-        
-        this.transform.eulerAngles = new Vector3(angleX + mouseDelta.x, angleY + mouseDelta.y, angleZ);
+
+        //this.transform.eulerAngles = new Vector3(angleX + mouseDelta.x, angleY + mouseDelta.y, angleZ);
+        this.transform.Rotate(Vector3.up, angleY * Time.deltaTime);
+        this.transform.Rotate(Vector3.right, angleX * Time.deltaTime);
     }
 }
