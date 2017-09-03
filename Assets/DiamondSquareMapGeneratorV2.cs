@@ -78,6 +78,9 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
         //Add renderer and shader to the renderer for this mesh
         MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer>();
         renderer.material.shader = shader;
+
+        //Add a mesh collider
+        gameObject.AddComponent<MeshCollider>();
     }
 	
     private void generateHeightsDiamondSquare() {
@@ -171,11 +174,11 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
 
     private float diagValue(int i, int j, int span, float randCoeff) {
         //This function is responsible for averaging the diagonal corners and adding a random component.
-        //the random cmponent will be relative to the spanning distance between points.
+        //the random component will be relative to the spanning distance between points.
         //We will also multiply by the given coefficient value!
         float val, sum = 0f;
 
-        //For diagonals, we know there will always be four availbe points to average, so no border checking is required.
+        //For diagonals, we know there will always be four available points to average, so no border checking is required.
         sum += heights[i, j];
         sum += heights[i, j+span];
         sum += heights[i+span, j];
