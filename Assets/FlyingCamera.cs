@@ -57,7 +57,7 @@ public class FlyingCamera : MonoBehaviour {
         angleY += mouseDelta.y;
 
         //this.transform.eulerAngles = new Vector3(angleX + mouseDelta.x, angleY + mouseDelta.y, angleZ);
-        this.transform.Rotate(Vector3.up, angleY * Time.deltaTime);
-        this.transform.Rotate(Vector3.right, angleX * Time.deltaTime);
+        this.transform.Rotate(transform.up, angleY * Time.deltaTime);
+        this.transform.Rotate(transform.right, angleX * Time.deltaTime);
     }
 }
