@@ -73,14 +73,20 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
         debugPrintArray();
 
         //The heights field should be populated now. Generate the mesh itself, and then we're done!
-        generateLandscapeMesh();
+        Mesh m = generateLandscapeMesh();
 
         //Add renderer and shader to the renderer for this mesh
         MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer>();
         renderer.material.shader = shader;
 
         //Add a mesh collider
-        gameObject.AddComponent<MeshCollider>();
+        MeshCollider landScapeCollider = this.gameObject.AddComponent<MeshCollider>();
+
+        Debug.Log("COLLIDER ENABLED? -- " + landScapeCollider.enabled);
+        Debug.Log("Landscape collider, convex?" + landScapeCollider.convex);
+
+        landScapeCollider.sharedMesh = m;
+        
     }
 	
     private void generateHeightsDiamondSquare() {
@@ -196,12 +202,12 @@ public class DiamondSquareMapGeneratorV2 : MonoBehaviour {
         return val;
     }
 
-    private void generateLandscapeMesh() {
+    private Mesh generateLandscapeMesh() {
         //Setup mesh factors
         //        MeshFilter cubeMesh = this.gameObject.AddComponent<MeshFilter>();
         //        cubeMesh.mesh = this.createCubeMesh();
 
-        createCubeMesh();
+        return createCubeMesh();
 
         // Add a MeshRenderer component. This component actually renders the mesh that
         // is defined by the MeshFilter component.
